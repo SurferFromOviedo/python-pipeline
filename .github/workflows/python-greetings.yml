@@ -32,6 +32,9 @@ jobs:
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v4
+      - name: Wait for server to stabilize
+        shell: cmd
+        run: timeout /t 10 /nobreak >nul
       - name: Testing dev environment
         uses: ./.github/actions/test
         with:
