@@ -1,1 +1,19 @@
+name: "Install Python dependencies"
+description: "Install Python dependencies"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout current repo
+      uses: actions/checkout@v4
+
+    - name: Clone python-greetings repo
+      uses: actions/checkout@v4
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+
+    - name: Installing dependencies via pip
+      run: pip3 install -r requirements.txt
+      working-directory: python-greetings
 
