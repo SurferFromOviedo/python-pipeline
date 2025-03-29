@@ -3,22 +3,23 @@ name: Python Greetings Pipeline
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   install-pip-deps:
     runs-on: self-hosted
     steps:
-      - name: Checkout current repository
+      - name: Checkout current repo
         uses: actions/checkout@v4
-
-      - name: Installing all required dependencies..
+      - name: Installing all required dependencies...
         uses: ./.github/actions/install-deps
-
 
   deploy-to-dev:
     needs: install-pip-deps
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Deploy to dev environment
         uses: ./.github/actions/deploy
         with:
@@ -29,6 +30,8 @@ jobs:
     needs: deploy-to-dev
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Testing dev environment
         uses: ./.github/actions/test
         with:
@@ -38,7 +41,9 @@ jobs:
     needs: tests-on-dev
     runs-on: self-hosted
     steps:
-      - name: Deploy to staging
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+      - name: Deploy to staging environment
         uses: ./.github/actions/deploy
         with:
           env: staging
@@ -48,6 +53,8 @@ jobs:
     needs: deploy-to-staging
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Testing staging environment
         uses: ./.github/actions/test
         with:
@@ -57,7 +64,9 @@ jobs:
     needs: tests-on-staging
     runs-on: self-hosted
     steps:
-      - name: Deploy to preprod
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+      - name: Deploy to preprod environment
         uses: ./.github/actions/deploy
         with:
           env: preprod
@@ -67,6 +76,8 @@ jobs:
     needs: deploy-to-preprod
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Testing preprod environment
         uses: ./.github/actions/test
         with:
@@ -76,7 +87,9 @@ jobs:
     needs: tests-on-preprod
     runs-on: self-hosted
     steps:
-      - name: Deploy to prod
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+      - name: Deploy to prod environment
         uses: ./.github/actions/deploy
         with:
           env: prod
@@ -86,8 +99,9 @@ jobs:
     needs: deploy-to-prod
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Testing prod environment
         uses: ./.github/actions/test
         with:
           env: prod
-
