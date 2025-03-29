@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Wait for server to be ready
         run: powershell -Command "Start-Sleep -Seconds 15"
-        shell: pwsh
+        shell: cmd
       - name: Testing dev environment
         uses: ./.github/actions/test
         with:
