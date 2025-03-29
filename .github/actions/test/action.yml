@@ -18,13 +18,11 @@ runs:
         repository: mtararujs/course-js-api-framework
         path: course-js-api-framework
 
-    - name: npm install
-      run: npm install
+    - name: Install dependencies
       working-directory: course-js-api-framework
-      shell: cmd 
-
-    - name: Run test
-      run: npm run greetings greetings_${{ inputs.env }}
-      working-directory: course-js-api-framework
-      shell: cmd 
+      run: |
+        echo Testing books on ${{ inputs.env }}
+        npm install
+        npm run greetings greetings_${{ inputs.env }}
+      shell: cmd
 
