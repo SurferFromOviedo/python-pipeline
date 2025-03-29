@@ -16,4 +16,4 @@ runs:
     - name: Installing dependencies via pip
       run: pip3 install -r requirements.txt
       working-directory: python-greetings
-
+      
