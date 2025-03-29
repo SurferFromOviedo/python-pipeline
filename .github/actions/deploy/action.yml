@@ -3,10 +3,10 @@ description: "Deploy Python app via pm2"
 
 inputs:
   env:
-    description: "Env (dev, staging, preprod, prod)"
+    description: "Environment (dev, staging, preprod, prod)"
     required: true
   port:
-    description: "Port (7001, 7002, 7003, 7004)"
+    description: "Port number (7001 for dev, 7002 for staging, 7003 for preprod, 7004 for prod)"
     required: true
 
 runs:
@@ -15,7 +15,7 @@ runs:
     - name: Checkout current repo
       uses: actions/checkout@v4
 
-    - name: Clone python-greetings
+    - name: Clone python-greetings repository
       uses: actions/checkout@v4
       with:
         repository: mtararujs/python-greetings
@@ -25,10 +25,11 @@ runs:
       shell: cmd
       run: |
         pm2 delete greetings-app-${{ inputs.env }} & set "errorlevel=0"
+        timeout /t 3 /nobreak >nul
 
     - name: Start pm2 service
       shell: cmd
       working-directory: python-greetings
       run: |
         pm2 start app.py --interpreter python --name greetings-app-${{ inputs.env }} -- --port ${{ inputs.port }}
-
+        timeout /t 5 /nobreak >nul
