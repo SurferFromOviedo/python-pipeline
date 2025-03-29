@@ -25,11 +25,9 @@ runs:
       shell: cmd
       run: |
         pm2 delete greetings-app-${{ inputs.env }} & EXIT /B 0
-        timeout /t 3 /nobreak >nul
 
     - name: Start pm2 service
       shell: cmd
       working-directory: python-greetings
       run: |
         pm2 start app.py --interpreter python --name greetings-app-${{ inputs.env }} -- --port ${{ inputs.port }}
-        timeout /t 5 /nobreak >nul
