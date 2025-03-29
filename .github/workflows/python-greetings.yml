@@ -8,8 +8,12 @@ jobs:
   install-pip-deps:
     runs-on: self-hosted
     steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+
       - name: Installing all required dependencies..
         uses: ./.github/actions/install-deps
+
 
   deploy-to-dev:
     needs: install-pip-deps
