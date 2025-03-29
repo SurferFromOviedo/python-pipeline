@@ -1,1 +1,28 @@
+name: "Run tests from course-js-api-framework"
+description: "Run tests from course-js-api-framework"
+
+inputs:
+  env:
+    description: "Env (dev, staging, preprod, prod)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout current repo
+      uses: actions/checkout@v4
+
+    - name: Clone course-js-api-framework
+      uses: actions/checkout@v4
+      with:
+        repository: mtararujs/course-js-api-framework
+        path: course-js-api-framework
+
+    - name: npm install
+      run: npm install
+      working-directory: course-js-api-framework
+
+    - name: Run test
+      run: npm run greetings greetings_${{ inputs.env }}
+      working-directory: course-js-api-framework
 
