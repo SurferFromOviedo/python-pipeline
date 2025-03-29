@@ -9,16 +9,17 @@ jobs:
   install-pip-deps:
     runs-on: self-hosted
     steps:
-      - name: Checkout repository
+      - name: Checkout current repo
         uses: actions/checkout@v4
-
-      - name: Install Python dependencies
+      - name: Installing all required dependencies...
         uses: ./.github/actions/install-deps
 
   deploy-to-dev:
     needs: install-pip-deps
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Deploy to dev environment
         uses: ./.github/actions/deploy
         with:
@@ -29,13 +30,9 @@ jobs:
     needs: deploy-to-dev
     runs-on: self-hosted
     steps:
-      - name: Force cleanup locked folder
-        shell: cmd
-        run: |
-          pm2 kill
-          timeout /t 5 /nobreak >nul
-          rmdir /s /q "C:\actions-runner\_work\python-pipeline\python-pipeline\python-greetings" || echo Folder removal failed
-      - name: Run tests on dev environment
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+      - name: Testing dev environment
         uses: ./.github/actions/test
         with:
           env: dev
@@ -44,6 +41,8 @@ jobs:
     needs: tests-on-dev
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Deploy to staging environment
         uses: ./.github/actions/deploy
         with:
@@ -54,7 +53,9 @@ jobs:
     needs: deploy-to-staging
     runs-on: self-hosted
     steps:
-      - name: Run tests on staging environment
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+      - name: Testing staging environment
         uses: ./.github/actions/test
         with:
           env: staging
@@ -63,6 +64,8 @@ jobs:
     needs: tests-on-staging
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Deploy to preprod environment
         uses: ./.github/actions/deploy
         with:
@@ -73,7 +76,9 @@ jobs:
     needs: deploy-to-preprod
     runs-on: self-hosted
     steps:
-      - name: Run tests on preprod environment
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+      - name: Testing preprod environment
         uses: ./.github/actions/test
         with:
           env: preprod
@@ -82,6 +87,8 @@ jobs:
     needs: tests-on-preprod
     runs-on: self-hosted
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Deploy to prod environment
         uses: ./.github/actions/deploy
         with:
@@ -92,7 +99,9 @@ jobs:
     needs: deploy-to-prod
     runs-on: self-hosted
     steps:
-      - name: Run tests on prod environment
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+      - name: Testing prod environment
         uses: ./.github/actions/test
         with:
           env: prod
