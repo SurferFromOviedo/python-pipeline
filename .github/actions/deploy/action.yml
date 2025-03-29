@@ -1,1 +1,34 @@
+name: "Deploy Python app via pm2"
+description: "Deploy Python app via pm2"
+
+inputs:
+  env:
+    description: "Env (dev, staging, preprod, prod)"
+    required: true
+  port:
+    description: "Port (7001, 7002, 7003, 7004)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout current repo
+      uses: actions/checkout@v4
+
+    - name: Clone python-greetings
+      uses: actions/checkout@v4
+      with:
+        repository: mtararujs/python-greetings
+        path: python-greetings
+
+    - name: Stop previous pm2 service
+      shell: cmd
+      run: |
+        pm2 delete greetings-app-${{ inputs.env }} & set "errorlevel=0"
+
+    - name: Start pm2 service
+      shell: cmd
+      working-directory: python-greetings
+      run: |
+        pm2 start app.py --name greetings-app-${{ inputs.env }} -- --port ${{ inputs.port }}
 
