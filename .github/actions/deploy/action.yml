@@ -25,10 +25,3 @@ runs:
       shell: cmd
       run: |
         pm2 delete greetings-app-${{ inputs.env }} & set "errorlevel=0"
-
-    - name: Start pm2 service
-      shell: cmd
-      working-directory: python-greetings
-      run: |
-        pm2 start app.py --name greetings-app-${{ inputs.env }} -- --port ${{ inputs.port }}
-
