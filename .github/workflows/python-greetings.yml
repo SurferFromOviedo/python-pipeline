@@ -32,9 +32,6 @@ jobs:
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v4
-      - name: Wait for server to be ready
-        run: powershell -Command "Start-Sleep -Seconds 15"
-        shell: cmd
       - name: Testing dev environment
         uses: ./.github/actions/test
         with:
