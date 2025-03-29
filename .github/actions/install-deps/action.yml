@@ -7,13 +7,13 @@ runs:
     - name: Checkout current repo
       uses: actions/checkout@v4
 
-    - name: Clone python-greetings repo
+    - name: Clone python-greetings
       uses: actions/checkout@v4
       with:
         repository: mtararujs/python-greetings
         path: python-greetings
 
     - name: Installing dependencies via pip
-      run: pip3 install -r requirements.txt
+      run: pip install -r requirements.txt
+      shell: cmd
       working-directory: python-greetings
-      
